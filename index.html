@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ATELIER — Art & Craft</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f7f5f0;
+    color:#171717;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,
+input,
+textarea,
+select{
+    font-family:inherit;
+}
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    padding:22px 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:.4s;
+}
+
+.navbar.scrolled{
+    background:rgba(247,245,240,.88);
+    backdrop-filter:blur(15px);
+    box-shadow:0 1px 20px rgba(0,0,0,.05);
+}
+
+.logo{
+    font-family:"Cormorant Garamond",serif;
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:3px;
+}
+
+.nav-links{
+    display:flex;
+    gap:32px;
+    font-size:12px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+
+.nav-links a{
+    position:relative;
+}
+
+.nav-links a::after{
+    content:"";
+    position:absolute;
+    bottom:-6px;
+    left:0;
+    width:0;
+    height:1px;
+    background:#111;
+    transition:.3s;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+.hero{
+    min-height:100vh;
+    padding:150px 6% 70px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:70px;
+}
+
+.hero-text{
+    animation:fadeUp 1s ease forwards;
+}
+
+.eyebrow{
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(65px,8vw,125px);
+    line-height:.82;
+    font-weight:500;
+}
+
+.hero h1 span{
+    display:block;
+    font-style:italic;
+}
+
+.hero-description{
+    max-width:430px;
+    margin-top:35px;
+    color:#666;
+    line-height:1.8;
+    font-size:14px;
+}
+
+.hero-btn{
+    display:inline-flex;
+    margin-top:35px;
+    padding:16px 28px;
+    background:#171717;
+    color:#fff;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition:.3s;
+}
+
+.hero-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+}
+
+.hero-image{
+    height:680px;
+    overflow:hidden;
+    animation:fadeIn 1.2s ease;
+}
+
+.hero-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:1s;
+}
+
+.hero-image:hover img{
+    transform:scale(1.04);
+}
+
+.marquee{
+    overflow:hidden;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    padding:20px 0;
+    white-space:nowrap;
+}
+
+.marquee-track{
+    display:inline-block;
+    animation:marquee 20s linear infinite;
+}
+
+.marquee span{
+    font-family:"Cormorant Garamond",serif;
+    font-size:24px;
+    margin:0 30px;
+    font-style:italic;
+}
+
+.section{
+    padding:120px 6%;
+}
+
+.section-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:55px;
+}
+
+.section-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    color:#777;
+}
+
+.section-title{
+    font-family:"Cormorant Garamond",serif;
+    font-size:65px;
+    font-weight:500;
+    line-height:.9;
+}
+
+.collection{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.product{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s;
+}
+
+.product.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.product-image{
+    position:relative;
+    height:550px;
+    overflow:hidden;
+    background:#e9e5dd;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.8s;
+}
+
+.product:hover .product-image img{
+    transform:scale(1.06);
+}
+
+.product-info{
+    padding:20px 3px;
+}
+
+.product-number{
+    font-size:10px;
+    color:#999;
+    letter-spacing:2px;
+}
+
+.product-name{
+    font-family:"Cormorant Garamond",serif;
+    font-size:30px;
+    margin:5px 0;
+}
+
+.product-desc{
+    font-size:12px;
+    color:#777;
+    line-height:1.6;
+    min-height:40px;
+}
+
+.order-btn{
+    margin-top:18px;
+    width:100%;
+    padding:15px;
+    border:1px solid #171717;
+    background:transparent;
+    cursor:pointer;
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition:.3s;
+}
+
+.order-btn:hover{
+    background:#171717;
+    color:#fff;
+}
+
+.story{
+    background:#171717;
+    color:#fff;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:100px;
+    align-items:center;
+}
+
+.story .section-label{
+    color:#aaa;
+}
+
+.story h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:75px;
+    font-weight:400;
+    line-height:.9;
+}
+
+.story-text{
+    color:#bbb;
+    line-height:2;
+    font-size:14px;
+}
+
+.order-area{
+    max-width:1000px;
+    margin:auto;
+}
+
+.order-intro{
+    text-align:center;
+    margin-bottom:55px;
+}
+
+.order-intro h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:70px;
+    font-weight:500;
+}
+
+.order-intro p{
+    color:#777;
+    font-size:13px;
+    margin-top:15px;
+}
+
+.form-box{
+    background:#fff;
+    padding:45px;
+    box-shadow:0 20px 70px rgba(0,0,0,.06);
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.field input,
+.field select,
+.field textarea{
+    border:1px solid #ddd;
+    background:#fafafa;
+    padding:15px;
+    outline:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+    border-color:#111;
+    background:#fff;
+}
+
+.field textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.whatsapp-btn{
+    margin-top:30px;
+    width:100%;
+    padding:18px;
+    background:#171717;
+    color:white;
+    border:0;
+    cursor:pointer;
+    letter-spacing:2px;
+    font-size:11px;
+    text-transform:uppercase;
+    transition:.3s;
+}
+
+.whatsapp-btn:hover{
+    transform:translateY(-3px);
+}
+
+.contact{
+    text-align:center;
+    border-top:1px solid #ddd;
+}
+
+.contact h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:75px;
+    font-weight:500;
+}
+
+.contact p{
+    margin:20px auto;
+    max-width:500px;
+    color:#777;
+    line-height:1.8;
+}
+
+.whatsapp-link{
+    display:inline-block;
+    margin-top:15px;
+    border-bottom:1px solid #111;
+    padding-bottom:5px;
+}
+
+footer{
+    padding:30px 6%;
+    border-top:1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:#777;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:2000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+    transition:.35s;
+}
+
+.modal.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.modal-box{
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#f7f5f0;
+    display:grid;
+    grid-template-columns:40% 60%;
+    transform:translateY(40px);
+    transition:.4s;
+}
+
+.modal.active .modal-box{
+    transform:translateY(0);
+}
+
+.modal-image{
+    min-height:600px;
+}
+
+.modal-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.modal-content{
+    padding:45px;
+}
+
+.close{
+    float:right;
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.modal-content .section-label{
+    margin-top:25px;
+}
+
+.modal-title{
+    font-family:"Cormorant Garamond",serif;
+    font-size:48px;
+    line-height:1;
+    margin:15px 0 10px;
+}
+
+.modal-description{
+    font-size:13px;
+    color:#777;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+.modal-form{
+    display:grid;
+    gap:15px;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    background:#fff;
+    outline:none;
+}
+
+.modal-form textarea{
+    min-height:90px;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+}
+
+@media(max-width:900px){
+
+    .nav-links{
+        gap:15px;
+        font-size:9px;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        padding-top:130px;
+    }
+
+    .hero-image{
+        height:500px;
+    }
+
+    .collection{
+        grid-template-columns:1fr;
+    }
+
+    .product-image{
+        height:600px;
+    }
+
+    .story{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .story h2,
+    .contact h2,
+    .order-intro h2{
+        font-size:55px;
+    }
+
+    .modal-box{
+        grid-template-columns:1fr;
+    }
+
+    .modal-image{
+        height:300px;
+        min-height:300px;
+    }
+
+    .modal-content{
+        padding:30px;
+    }
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        padding:18px 5%;
+    }
+
+    .logo{
+        font-size:24px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        padding:120px 5% 50px;
+    }
+
+    .hero h1{
+        font-size:70px;
+    }
+
+    .section{
+        padding:80px 5%;
+    }
+
+    .section-title{
+        font-size:52px;
+    }
+
+    .section-heading{
+        display:block;
+    }
+
+    .section-label{
+        display:block;
+        margin-bottom:15px;
+    }
+
+    .form-box{
+        padding:25px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .product-image{
+        height:500px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav class="navbar" id="navbar">
+
+    <a href="#home" class="logo">ATELIER.</a>
+
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#collection">Collection</a>
+        <a href="#story">Story</a>
+        <a href="#order">Order</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+    <div class="hero-text">
+
+        <div class="eyebrow">
+            Art · Craft · Story
+        </div>
+
+        <h1>
+            Made
+            <span>with meaning.</span>
+        </h1>
+
+        <p class="hero-description">
+            Carefully selected pieces designed to bring elegance,
+            emotion and meaning to your special moments.
+        </p>
+
+        <a href="#collection" class="hero-btn">
+            Explore Collection →
+        </a>
+
+    </div>
+
+
+    <div class="hero-image">
+
+        <img
+            src="assets/lumiere-fine-jewellery.png"
+            alt="Lumière Fine Jewellery"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- MARQUEE -->
+
+<div class="marquee">
+
+    <div class="marquee-track">
+
+        <span>Handmade</span>
+        <span>Fine Jewellery</span>
+        <span>Bridal Moments</span>
+        <span>Islamic Favors</span>
+        <span>Thoughtful Gifts</span>
+
+        <span>Handmade</span>
+        <span>Fine Jewellery</span>
+        <span>Bridal Moments</span>
+        <span>Islamic Favors</span>
+        <span>Thoughtful Gifts</span>
+
+    </div>
+
+</div>
+
+
+<!-- COLLECTION -->
+
+<section class="section" id="collection">
+
+    <div class="section-heading">
+
+        <div>
+            <div class="section-label">01 / Collection</div>
+            <h2 class="section-title">
+                Selected<br>Pieces.
+            </h2>
+        </div>
+
+        <div class="section-label">
+            Order directly through WhatsApp
+        </div>
+
+    </div>
+
+
+    <div class="collection">
+
+        <!-- PRODUCT 1 -->
+
+        <article class="product reveal">
+
+            <div class="product-image">
+
+                <img
+                    src="assets/lumiere-fine-jewellery.png"
+                    alt="Lumière Fine Jewellery"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-number">01 / JEWELLERY</div>
+
+                <h3 class="product-name">
+                    Lumière Fine Jewellery
+                </h3>
+
+                <p class="product-desc">
+                    Premium jewellery designed for elegance
+                    and every special occasion.
+                </p>
+
+                <button
+                    class="order-btn"
+                    onclick="openOrder(0)"
+                >
+                    Order this piece →
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCT 2 -->
+
+        <article class="product reveal">
+
+            <div class="product-image">
+
+                <img
+                    src="assets/luxury-pearl-hanger.png"
+                    alt="Luxury Pearl Hanger"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-number">02 / BRIDAL</div>
+
+                <h3 class="product-name">
+                    Luxury Pearl Hanger
+                </h3>
+
+                <p class="product-desc">
+                    Handmade pearl detailing created
+                    especially for bridal moments.
+                </p>
+
+                <button
+                    class="order-btn"
+                    onclick="openOrder(1)"
+                >
+                    Order this piece →
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCT 3 -->
+
+        <article class="product reveal">
+
+            <div class="product-image">
+
+                <img
+                    src="assets/islamic-baby-favors.png"
+                    alt="Islamic Baby Favors"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-number">03 / FAVORS</div>
+
+                <h3 class="product-name">
+                    Islamic Baby Favors
+                </h3>
+
+                <p class="product-desc">
+                    A small gift carrying a big dua,
+                    customizable for meaningful occasions.
+                </p>
+
+                <button
+                    class="order-btn"
+                    onclick="openOrder(2)"
+                >
+                    Order this piece →
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- STORY -->
+
+<section class="section story" id="story">
+
+    <div>
+
+        <div class="section-label">
+            02 / Our Story
+        </div>
+
+        <h2>
+            Objects<br>
+            with a story.
+        </h2>
+
+    </div>
+
+    <div class="story-text">
+
+        <p>
+            Every piece is selected with attention to
+            detail, presentation and meaning.
+        </p>
+
+        <br>
+
+        <p>
+            From jewellery to bridal details and
+            thoughtful Islamic favors, our collection
+            is made for moments that deserve something
+            memorable.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- GENERAL ORDER FORM -->
+
+<section class="section" id="order">
+
+    <div class="order-area">
+
+        <div class="order-intro">
+
+            <div class="section-label">
+                03 / Order
+            </div>
+
+            <h2>
+                Complete your order.
+            </h2>
+
+            <p>
+                Select your piece and send your request
+                directly through WhatsApp.
+            </p>
+
+        </div>
+
+
+        <form class="form-box" id="mainOrderForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>Selected Piece</label>
+
+                    <select id="mainProduct">
+
+                        <option>Lumière Fine Jewellery</option>
+                        <option>Luxury Pearl Hanger</option>
+                        <option>Islamic Baby Favors</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Quantity</label>
+
+                    <input
+                        type="number"
+                        id="mainQuantity"
+                        min="1"
+                        value="1"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        id="mainName"
+                        required
+                        placeholder="Your name"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>WhatsApp Number</label>
+
+                    <input
+                        type="tel"
+                        id="mainPhone"
+                        required
+                        placeholder="+91..."
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Style / Variant</label>
+
+                    <select id="mainVariant">
+
+                        <option>Standard</option>
+                        <option>Custom</option>
+                        <option>Not sure yet</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Budget / Price Query</label>
+
+                    <input
+                        type="text"
+                        id="mainBudget"
+                        placeholder="Optional"
+                    >
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>Additional Note / Customization</label>
+
+                    <textarea
+                        id="mainNote"
+                        placeholder="Tell us your requirements..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <button class="whatsapp-btn" type="submit">
+
+                Continue to WhatsApp →
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section class="section contact" id="contact">
+
+    <div class="section-label">
+        04 / Contact
+    </div>
+
+    <h2>
+        Let's create<br>
